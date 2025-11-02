@@ -2,17 +2,21 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { SiTether } from "react-icons/si";
 import { IoWalletOutline } from "react-icons/io5";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { BsFillInfoCircleFill, BsCurrencyDollar } from "react-icons/bs";
 import { RxTokens } from "react-icons/rx";
-
-import Admin from "./Admin";
-import { One, Two, Three, Four } from "./SVG";
 
 import dynamic from "next/dynamic";
 
+import Admin from "./Admin";
+
 import { renderBgElements } from "./Hero/bgElements";
 import { renderScrollToTopButton } from "./Hero/ScrollToTop";
+import { renderCardHeading } from "./Hero/CardHeading";
+import { renderHelpSection } from "./Hero/HelpSection";
+import { renderFeaturesSetion } from "./Hero/FeaturesSection";
+import { renderPriceInfoSection } from "./Hero/PriceInfoSection";
+import { renderLoaderOverlay } from "./Hero/LoaderOverlay";
+import { renderTokenPriceDisplay } from "./Hero/TokenPriceDisplay";
+import { renderInsufficientBalanceAlert } from "./Hero/InsufficientBalanceAlert";
 
 const WalletMultiButton = dynamic(
   () =>
@@ -197,144 +201,6 @@ const HeroSection = ({
     );
   };
 
-  const renderFeaturesSetion = () => {
-    return (
-      <div className="grid grid-cols-2 gap-4 w-full max-w-md mb-10">
-        <div
-          className={`px-3 py-3 rounded-xl ${
-            isDarkMode ? "bg-gray-800" : "bg-gray-100"
-          } flex items-center`}
-        >
-          <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center mr-3">
-            <One />
-          </div>
-          <div>
-            <p className={`text-xs ${secondaryTextColor}`}>Early Access</p>
-            <p className={`text-sm font-medium ${textColor}`}>
-              Limited presale
-            </p>
-          </div>
-        </div>
-
-        <div
-          className={`px-4 py-3 rounded-3xl ${
-            isDarkMode ? "bg-gray-800" : "bg-gray-100"
-          } flex items-center`}
-        >
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-            <Two />
-          </div>
-          <div>
-            <p className={`text-xs ${secondaryTextColor}`}>For You</p>
-            <p className={`text-sm font-medium ${textColor}`}>
-              Exclusive Benefits
-            </p>
-          </div>
-        </div>
-
-        <div
-          className={`px-4 py-3 rounded-3xl ${
-            isDarkMode ? "bg-gray-800" : "bg-gray-100"
-          } flex items-center`}
-        >
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-            <Three />
-          </div>
-
-          <div>
-            <p className={`text-xs ${secondaryTextColor}`}>Low Starting</p>
-            <p className={`text-sm font-medium ${textColor}`}>Special Price</p>
-          </div>
-        </div>
-
-        <div
-          className={`px-4 py-3 rounded-3xl ${
-            isDarkMode ? "bg-gray-800" : "bg-gray-100"
-          } flex items-center`}
-        >
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-            <Four />
-          </div>
-
-          <div>
-            <p className={`text-xs ${secondaryTextColor}`}>Earn More</p>
-            <p className={`text-sm font-medium ${textColor}`}>
-              Referral Program
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderPriceInfoSection = () => {
-    return (
-      <div className="flex justify-between bg-gradient-to-r from-purple-500/5 to-emerald-500.5 rounded-xl p-4 mb-5">
-        <div className="text-center">
-          <p className={`text-xs ${secondaryTextColor} mb-1`}>Current Price</p>
-          <p className={`text-lg font-bold ${textColor}`}>
-            ${PER_TOKEN_USD_PRICE}
-          </p>
-        </div>
-        <div className="h-auto w-px bg-gradient-to-b from-transparent via-gray-400/20 to-transparent"></div>
-        <div className="text-center">
-          <p className={`text-xs ${secondaryTextColor} mb-1`}>Next Stage</p>
-
-          <p className={`text-lg font-bold ${textColor}`}>
-            ${NEXT_PER_TOKEN_USD_PRICE}
-          </p>
-        </div>
-      </div>
-    );
-  };
-
-  const renderHelpSection = () => {
-    return (
-      <div
-        className={`p-4 rounded-lg ${
-          isDarkMode ? "bg-gray-800/50" : "bg-gray-100"
-        }`}
-      >
-        <div className="flex items-center mb-3">
-          <AiOutlineQuestionCircle className="mr-2 text-purple-500" size={18} />
-          <h4 className={`font-medium ${textColor}`}>Need Help?</h4>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <a
-            href="#chart"
-            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-          >
-            <span className="mr-1 text-purple-500">-</span>
-            How to Buy Guide
-          </a>
-          <a
-            href="#about"
-            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-          >
-            <span className="mr-1 text-purple-500">-</span>
-            About {TOKEN_SYMBOL}
-          </a>
-
-          <a
-            href="#chart"
-            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-          >
-            <span className="mr-1 text-purple-500">-</span>
-            Token Information
-          </a>
-
-          <a
-            href="#chart"
-            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-          >
-            <span className="mr-1 text-purple-500">-</span>
-            Frequently Asked Questions
-          </a>
-        </div>
-      </div>
-    );
-  };
-
   const renderActionButtons = () => {
     return (
       <>
@@ -428,24 +294,6 @@ const HeroSection = ({
     );
   };
 
-  const renderTokenPriceDisplay = () => {
-    return (
-      <div className="bg-gradient-to-r from-purple-500/10 to-emerald-500/10 rounded-xl p-4 flex items-center justify-center space-x-3 mb-6">
-        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-          <img src="/logo.png" alt={TOKEN_SYMBOL} className="w-6 h-6" />
-        </div>
-        <span className={`text-lg font-medium ${textColor}`}>
-          1 {TOKEN_SYMBOL} ={" "}
-        </span>
-        <div className="px-3 py-1.5 rounded-lg bg-purple-500/20">
-          <span className="text-lg font-bold text-purple-500">
-            {PER_TOKEN_SOL_PRICE} {CURRENCY}
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   const renderTokenSelection = () => {
     return (
       <div className="mb-5">
@@ -459,39 +307,6 @@ const HeroSection = ({
           </button>
         </div>
       </div>
-    );
-  };
-
-  const renderCardHeading = () => {
-    return (
-      <div className="bg-gradient-to-r from-purple-600 to-emerald-600 py-4 px-6">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-white font-bold text-lg">
-            Buy {TOKEN_SYMBOL} Tokens
-          </h3>
-          <span className="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">
-            Stage 1
-          </span>
-        </div>
-        <p>Limited time offer - Secure your tokens now</p>
-      </div>
-    );
-  };
-
-  const renderInsufficientBalanceAlert = () => {
-    return (
-      <>
-        {userSolBalance < MIN_SOL_BALANCE && (
-          <div
-            className={`text-center text-xs ${secondaryTextColor} mb-4 bg-purple-500/5 py-2 px-4 rounded-lg flex items-center justify-center`}
-          >
-            <BsFillInfoCircleFill className="mr-2" size={14} />
-            <span>
-              You don't have the minimum balance of {MIN_SOL_BALANCE} SOL
-            </span>
-          </div>
-        )}
-      </>
     );
   };
 
@@ -552,44 +367,32 @@ const HeroSection = ({
     );
   };
 
-  const renderLoaderOverlay = () => {
-    return (
-      <>
-        {isLoading && (
-          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-2xl">
-            <div className="flex flex-col items-center">
-              <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-              <p className="text-white">Loading...</p>
-            </div>
-          </div>
-        )}
-      </>
-    );
-  };
-
   const renderRightSideContent = () => {
     return (
       <div className="w-full lg:w-1/2 max-w-md mx-auto relative rounded-2xl  overflow-hidden z-10">
         {/* loading overlay */}
-        {renderLoaderOverlay()}
+        {renderLoaderOverlay(isLoading)}
 
         {/* card glow effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-emerald-600 rounded-2xl blur-lg opacity-20"></div>
 
         {/* card content */}
-        {renderCardHeading()}
+        {renderCardHeading(TOKEN_SYMBOL)}
 
         <div className="p-6">
-          {renderInsufficientBalanceAlert()}
+          {renderInsufficientBalanceAlert(userSolBalance, MIN_SOL_BALANCE)}
 
           {/* price info */}
-          {renderPriceInfoSection()}
+          {renderPriceInfoSection(
+            PER_TOKEN_USD_PRICE,
+            NEXT_PER_TOKEN_USD_PRICE
+          )}
 
           {/* progress section */}
           {renderProgressSection()}
 
           {/* token price display */}
-          {renderTokenPriceDisplay()}
+          {renderTokenPriceDisplay(TOKEN_SYMBOL, PER_TOKEN_SOL_PRICE, CURRENCY)}
 
           {/* Token selection */}
           {renderTokenSelection()}
@@ -607,7 +410,7 @@ const HeroSection = ({
           {renderReferFriendButton()}
 
           {/* Help section */}
-          {renderHelpSection()}
+          {renderHelpSection(TOKEN_SYMBOL)}
         </div>
       </div>
     );

@@ -497,33 +497,31 @@ const HeroSection = ({
 
   const renderTokenInputs = () => {
     return (
-      <>
-        <div className="space-y-4 mb-6">
-          <div>
-            <label
-              className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
-            >
-              Quantity
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className={`w-full ${inputBg} ${textColor} rounded-lg border p-4 focus:ring-2 focus:ring-purple-500 transitiona-all duration-200`}
-              />
+      <div className="space-y-4 mb-6">
+        <div>
+          <label
+            className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
+          >
+            Quantity
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className={`w-full ${inputBg} ${textColor} rounded-lg border p-4 focus:ring-2 focus:ring-purple-500 transitiona-all duration-200`}
+            />
 
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-grayt-600 px-3 py-1 rounded-lg">
-                <span className={`text-sm ${textColor} mr-2`}>
-                  {TOKEN_SYMBOL}
-                </span>
-                <div className="w-6 h-6 pl-2 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
-                  <img
-                    src="/logo.png"
-                    alt={TOKEN_SYMBOL}
-                    className="mr-3 w-4 h-4"
-                  />
-                </div>
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-grayt-600 px-3 py-1 rounded-lg">
+              <span className={`text-sm ${textColor} mr-2`}>
+                {TOKEN_SYMBOL}
+              </span>
+              <div className="w-6 h-6 pl-2 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
+                <img
+                  src="/logo.png"
+                  alt={TOKEN_SYMBOL}
+                  className="mr-3 w-4 h-4"
+                />
               </div>
             </div>
           </div>
@@ -550,7 +548,7 @@ const HeroSection = ({
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -571,7 +569,7 @@ const HeroSection = ({
 
   const renderRightSideContent = () => {
     return (
-      <div className="w-full lg:w-1/2 max-w-md mx-auto relative">
+      <div className="w-full lg:w-1/2 max-w-md mx-auto relative rounded-2xl  overflow-hidden z-10">
         {/* loading overlay */}
         {renderLoaderOverlay()}
 
@@ -601,16 +599,16 @@ const HeroSection = ({
 
           {/* amount inputs */}
           {renderTokenInputs()}
+
+          {/* action buttons */}
+          {renderActionButtons()}
+
+          {/* refer a friend button */}
+          {renderReferFriendButton()}
+
+          {/* Help section */}
+          {renderHelpSection()}
         </div>
-
-        {/* action buttons */}
-        {renderActionButtons()}
-
-        {/* refer a friend button */}
-        {renderReferFriendButton()}
-
-        {/* Help section */}
-        {renderHelpSection()}
       </div>
     );
   };

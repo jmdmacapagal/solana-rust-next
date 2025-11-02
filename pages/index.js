@@ -41,7 +41,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [icoData, setIcoData] = useState(null);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("0");
   const [userTokenBalance, setUserTokenBalance] = useState(null);
 
   useEffect(() => {
@@ -298,7 +298,19 @@ export default function Home() {
     <>
       <NavBar />
       <main>
-        <HeroSection />
+        <HeroSection
+          wallet={wallet}
+          isAdmin={isAdmin}
+          loading={loading}
+          icoData={icoData}
+          amount={amount}
+          // userSolBalance={userSolBalance}
+          userTokenBalance={userTokenBalance}
+          setAmount={setAmount}
+          createIcoAta={createIcoAta}
+          depositIco={depositIco}
+          buyTokens={buyTokens}
+        />
       </main>
     </>
   );

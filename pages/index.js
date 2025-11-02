@@ -15,6 +15,8 @@ import {
 } from "@solana/spl-token";
 import { Program, AnchorProvider, web3, BN } from "@project-serum/anchor";
 
+import { NavBar, HeroSection } from "../components";
+
 import IDL from "../idl/idl.json";
 
 const WalletMultiButton = dynamic(
@@ -291,4 +293,13 @@ export default function Home() {
       setUserTokenBalance("0");
     }
   };
+
+  return (
+    <>
+      <NavBar />
+      <main>
+        <HeroSection />
+      </main>
+    </>
+  );
 }

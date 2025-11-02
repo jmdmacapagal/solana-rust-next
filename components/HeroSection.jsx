@@ -7,7 +7,7 @@ import { BsFillInfoCircleFill, BsCurrencyDollar } from "react-icons/bs";
 import { RxTokens } from "react-icons/rx";
 
 import Admin from "./Admin";
-import { One, Two, Three, Four, Five } from "./SVG";
+import { One, Two, Three, Four } from "./SVG";
 
 import dynamic from "next/dynamic";
 
@@ -660,43 +660,36 @@ const HeroSection = ({
   };
 
   return (
-    <>
-      <div className={`relative w-full overflow-hidden ${bgColor}`}>
-        {/* bg elements */}
-        {renderBgElements()}
+    <div className={`relative w-full overflow-hidden ${bgColor}`}>
+      {renderBgElements()}
 
-        {/* main content */}
-        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-            {/* left side - text */}
-            {renderLeftSideContent()}
-
-            {/* right side - purchase card */}
-            {renderRightSideContent()}
-          </div>
+      {/* main content */}
+      <div className="max-w-[1024px] mx-auto px-4 py-16 md:py-24 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+          {renderLeftSideContent()}
+          {renderRightSideContent()}
         </div>
-
-        {/* // scroll to top button */}
-        {renderScrollToTopButton()}
-
-        <Admin
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          wallet={wallet}
-          isAdmin={isAdmin}
-          loading={loading}
-          icoData={icoData}
-          amount={amount}
-          userSolBalance={userSolBalance}
-          // userTokenBalance={userTokenBalance}
-          setAmount={setAmount}
-          createIcoAta={createIcoAta}
-          depositIco={depositIco}
-          buyTokens={buyTokens}
-          calculateProgressPercentage={calculateProgressPercentage}
-        />
       </div>
-    </>
+
+      {renderScrollToTopButton()}
+
+      <Admin
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        wallet={wallet}
+        isAdmin={isAdmin}
+        loading={loading}
+        icoData={icoData}
+        amount={amount}
+        userSolBalance={userSolBalance}
+        // userTokenBalance={userTokenBalance}
+        setAmount={setAmount}
+        createIcoAta={createIcoAta}
+        depositIco={depositIco}
+        buyTokens={buyTokens}
+        calculateProgressPercentage={calculateProgressPercentage}
+      />
+    </div>
   );
 };
 

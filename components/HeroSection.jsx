@@ -53,6 +53,13 @@ const HeroSection = ({
   const [contractInfo] = useState();
   const [tokenBalances] = useState();
 
+  const bgColor = "bg-gray-900";
+  const textColor = "text-white";
+  const secondaryTextColor = "text-gray-400";
+  const cardBg = "bg-gray-800";
+  const cardBorder = "border-gray-700";
+  const inputBg = "bg-gray-700 border-gray-600";
+
   const calculateProgressPercentage = () => {
     if (!icoData?.tokenSolde?.toString() || !icoData?.totalTokens?.toString())
       return 0;
@@ -95,22 +102,14 @@ const HeroSection = ({
       isSelected
         ? "bg-purple-700 text-white shadow-lg shadow-purple-700/30"
         : isDarkMode
-        ? "bg-gray-800 text-gray-300 hover:bg-gray-700 "
-        : "bg-gray-100 text-gray-700 hover:bg-gray-200 "
+        ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
     } transition-all duration-300 text-sm font-medium flex-1`;
   };
 
-  const bgColor = "bg-gray-900";
-  const textColor = "text-white";
-  const secondaryTextColor = "text-gray-400";
-  const cardBg = "bg-gray-800";
-  const cardBorder = "border-gray-700";
-  const inputBg = "bg-gray-700 border-gray-600  ";
-
-  return (
-    <>
-      <div className={`relative w-full overflow-hidden ${bgColor}`}>
-        {/* bg elements */}
+  const renderBgElements = () => {
+    return (
+      <>
         <div className="absolute inset-0 z-0">
           {/* animated bg */}
           <div className="absolute inset-0">
@@ -129,454 +128,691 @@ const HeroSection = ({
           </div>
         </div>
 
-        {/* main content */}
-        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-            {/* left side - text */}
-            <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
-              {/* status badge */}
-              <div className="inline-block py-2 px-5 rounded-full bg-purple-500/10 mb-6 border border-purple-500/20">
-                <p className="text-sm font-medium text-purple-500">
-                  Presale Live Now - Limited Time Offer
-                </p>
-              </div>
+        <style jsx>
+          {`
+            .orbital-ring {
+              position: absolute;
+              border-radius: 50%;
+              border: 1px solid rgba(139, 92, 246, 0.1);
+              animation: rotate 60s linear infinite;
+            }
 
-              <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${textColor}`}
-              >
-                SOLANA
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-emerald-500">
-                  &nbsp; ICO
-                </span>
-              </h1>
+            .ring1 {
+              width: 400px;
+              height: 400px;
+              top: -100px;
+              right: -100px;
+            }
 
-              <div className="relative mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-emerald-500">
-                    Token Presale
-                  </span>
-                  <span className={textColor}>- Stage 1</span>
-                </h2>
+            .ring2 {
+              width: 800;
+              height: 800px;
+              bottom: -200px;
+              left: -200px;
+              border-color: rgba(16, 185, 129, 0.1);
+              animation-duration: 90s;
+              animation-direction: reverse;
+            }
 
-                <div className="absolute -bottom-3 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-emerald-500 rounded-full"></div>
+            .ring-3 {
+              width: 400px;
+              height: 400px;
+              top: 50%;
+              left: 60%;
+              border: 1px solid rgba(139, 92, 246, 0.1);
+              animation-duration: 45s;
+            }
 
-                <p
-                  className={`${secondaryTextColor} text-base md:text-lg max-w-md mb-10 leading-relaxed`}
-                >
-                  Join the future of blockchain innovation. Our revolutionary
-                  platform combines cutting-edge technology with decentralized
-                  finance to create a seamless eosystem for digital assets.
-                </p>
+            @keyframes rotate {
+              from {
+                transform: rotate(0deg);
+              }
 
-                {/* features */}
-                <div className="grid grid-cols-2 gap-4 w-full max-w-md mb-10">
-                  <div
-                    className={`px-3 py-3 rounded-xl ${
-                      isDarkMode ? "bg-gray-800" : "bg-gray-100"
-                    } flex items-center`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center mr-3">
-                      <One />
-                    </div>
-                    <div>
-                      <p className={`text-xs ${secondaryTextColor}`}>
-                        Early Access
-                      </p>
-                      <p className={`text-sm font-medium ${textColor}`}>
-                        Limited presale
-                      </p>
-                    </div>
-                  </div>
+              to {
+                transform: rotate(360deg);
+              }
+            }
 
-                  <div
-                    className={`px-4 py-3 rounded-3xl ${
-                      isDarkMode ? "bg-gray-800" : "bg-gray-100"
-                    } flex items-center`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-                      <Two />
-                    </div>
-                    <div>
-                      <p className={`text-xs ${secondaryTextColor}`}>For You</p>
-                      <p className={`text-sm font-medium ${textColor}`}>
-                        Exclusive Benefits
-                      </p>
-                    </div>
-                  </div>
+            // floating elements
+            .floating-element {
+              position: absolute;
+              background: rgba(139, 92, 246, 0.1);
+              border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+              animation: float 10s ease-in-out infinite alternate;
+            }
 
-                  <div
-                    className={`px-4 py-3 rounded-3xl ${
-                      isDarkMode ? "bg-gray-800" : "bg-gray-100"
-                    } flex items-center`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-                      <Three />
-                    </div>
+            .elem1 {
+              width: 300px;
+              height: 300px;
+              top: 10%;
+              right: 10%;
+              animation-delay: 0s;
+            }
 
-                    <div>
-                      <p className={`text-xs ${secondaryTextColor}`}>
-                        Low Starting
-                      </p>
-                      <p className={`text-sm font-medium ${textColor}`}>
-                        Special Price
-                      </p>
-                    </div>
-                  </div>
+            .elem2 {
+              width: 200px;
+              height: 200px;
+              bottom: 20%;
+              left: 15%;
+              background-color: rgba(139, 92, 246, 0.1);
+              animation-delay: 2s;
+              animation-duration: 12s;
+            }
 
-                  <div
-                    className={`px-4 py-3 rounded-3xl ${
-                      isDarkMode ? "bg-gray-800" : "bg-gray-100"
-                    } flex items-center`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
-                      <Four />
-                    </div>
+            .elem3 {
+              width: 150px;
+              height: 150px;
+              top: 40%;
+              left: 25%;
+              background-color: rgba(139, 92, 246, 0.15);
+              animation-delay: 4s;
+              animation-duration: 8s;
+            }
 
-                    <div>
-                      <p className={`text-xs ${secondaryTextColor}`}>
-                        Earn More
-                      </p>
-                      <p className={`text-sm font-medium ${textColor}`}>
-                        Referral Program
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            @keyframes float {
+              0% {
+                transform: translateY(0px) rotate(0deg);
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+              }
+
+              50% {
+                transform: translateY(-20px) rotate(10deg);
+                border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+              }
+
+              100% {
+                transform: translateY(0px) rotate(0deg);
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+              }
+            }
+          `}
+        </style>
+      </>
+    );
+  };
+
+  const renderProgressSection = () => {
+    return (
+      <>
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <p className={`text-xs ${secondaryTextColor}`}>Sale Progress</p>
+            <p className="text-sm font-medium text-purple-500">
+              {calculateProgressPercentage()}% Complete
+            </p>
+          </div>
+          <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-purple-500 to-emerald-500 relative progress-animation"
+              style={{ width: `${calculateProgressPercentage()}%` }}
+            >
+              <div className="absolute inset-0 shimmer"></div>
             </div>
+          </div>
 
-            {/* right side - purchase card */}
-            <div className="w-full lg:w-1/2 max-w-md mx-auto relative">
-              {/* loading overlay */}
-              {isLoading && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-2xl">
-                  <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                    <p className="text-white">Loading...</p>
-                  </div>
-                </div>
-              )}
+          <div className="flex justify-between mt-2">
+            <p className={`text-xs ${secondaryTextColor}`}>
+              Total Raised:{" "}
+              <span className="font-medium">
+                $
+                {parseFloat(icoData?.tokensSold?.toString() || 0) *
+                  parseFloat(PER_TOKEN_USD_PRICE) || 0 > 0
+                  ? (
+                      parseFloat(icoData?.tokensSold?.toString() || 0) *
+                      parseFloat(PER_TOKEN_USD_PRICE || 0)
+                    ).toFixed(2)
+                  : "0"}
+              </span>
+            </p>
 
-              {/* card glow effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-emerald-600 rounded-2xl blur-lg opacity-20"></div>
+            <p className={`text-xs ${secondaryTextColor}`}>
+              Tokens Left:{" "}
+              <span className="font-medium text-emerald-500">
+                {icoData?.totalTokens - icoData?.tokensSold} {TOKEN_SYMBOL}
+              </span>
+            </p>
+          </div>
+        </div>
 
-              {/* card content */}
-              <div className="bg-gradient-to-r from-purple-600 to-emerald-600 py-4 px-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-white font-bold text-lg">
-                    Buy {TOKEN_SYMBOL} Tokens
-                  </h3>
-                  <span className="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">
-                    Stage 1
-                  </span>
-                </div>
-                <p>Limited time offer - Secure your tokens now</p>
-              </div>
+        <style jsx>
+          {`
+            // progress bar animation
+            .progress-animation {
+              animation: progress 2s ease-out;
+            }
 
-              <div className="p-6">
-                {userSolBalance < MIN_SOL_BALANCE && (
-                  <div
-                    className={`text-center text-xs ${secondaryTextColor} mb-4 bg-purple-500/5 py-2 px-4 rounded-lg flex items-center justify-center`}
+            @keyframes progress {
+              0% {
+                width: 0%;
+              }
+
+              100% {
+                width: ${calculateProgressPercentage()}%;
+              }
+            }
+
+            // shimmer effect
+            .shimmer {
+              animation: shimmer 2s infinite linear;
+              background: linear-gradient(
+                to-right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+              );
+              background-size: 200% 100%;
+            }
+
+            @keyframes shimmer {
+              0% {
+                background-position: -200% 0;
+              }
+
+              100% {
+                background-position: 200% 0;
+              }
+            }
+          `}
+        </style>
+      </>
+    );
+  };
+
+  const renderFeaturesSetion = () => {
+    return (
+      <div className="grid grid-cols-2 gap-4 w-full max-w-md mb-10">
+        <div
+          className={`px-3 py-3 rounded-xl ${
+            isDarkMode ? "bg-gray-800" : "bg-gray-100"
+          } flex items-center`}
+        >
+          <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center mr-3">
+            <One />
+          </div>
+          <div>
+            <p className={`text-xs ${secondaryTextColor}`}>Early Access</p>
+            <p className={`text-sm font-medium ${textColor}`}>
+              Limited presale
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={`px-4 py-3 rounded-3xl ${
+            isDarkMode ? "bg-gray-800" : "bg-gray-100"
+          } flex items-center`}
+        >
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
+            <Two />
+          </div>
+          <div>
+            <p className={`text-xs ${secondaryTextColor}`}>For You</p>
+            <p className={`text-sm font-medium ${textColor}`}>
+              Exclusive Benefits
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={`px-4 py-3 rounded-3xl ${
+            isDarkMode ? "bg-gray-800" : "bg-gray-100"
+          } flex items-center`}
+        >
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
+            <Three />
+          </div>
+
+          <div>
+            <p className={`text-xs ${secondaryTextColor}`}>Low Starting</p>
+            <p className={`text-sm font-medium ${textColor}`}>Special Price</p>
+          </div>
+        </div>
+
+        <div
+          className={`px-4 py-3 rounded-3xl ${
+            isDarkMode ? "bg-gray-800" : "bg-gray-100"
+          } flex items-center`}
+        >
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mr-3">
+            <Four />
+          </div>
+
+          <div>
+            <p className={`text-xs ${secondaryTextColor}`}>Earn More</p>
+            <p className={`text-sm font-medium ${textColor}`}>
+              Referral Program
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderPriceInfoSection = () => {
+    return (
+      <div className="flex justify-between bg-gradient-to-r from-purple-500/5 to-emerald-500.5 rounded-xl p-4 mb-5">
+        <div className="text-center">
+          <p className={`text-xs ${secondaryTextColor} mb-1`}>Current Price</p>
+          <p className={`text-lg font-bold ${textColor}`}>
+            ${PER_TOKEN_USD_PRICE}
+          </p>
+        </div>
+        <div className="h-auto w-px bg-gradient-to-b from-transparent via-gray-400/20 to-transparent"></div>
+        <div className="text-center">
+          <p className={`text-xs ${secondaryTextColor} mb-1`}>Next Stage</p>
+
+          <p className={`text-lg font-bold ${textColor}`}>
+            ${NEXT_PER_TOKEN_USD_PRICE}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderHelpSection = () => {
+    return (
+      <div
+        className={`p-4 rounded-lg ${
+          isDarkMode ? "bg-gray-800/50" : "bg-gray-100"
+        }`}
+      >
+        <div className="flex items-center mb-3">
+          <AiOutlineQuestionCircle className="mr-2 text-purple-500" size={18} />
+          <h4 className={`font-medium ${textColor}`}>Need Help?</h4>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <a
+            href="#chart"
+            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
+          >
+            <span className="mr-1 text-purple-500">-</span>
+            How to Buy Guide
+          </a>
+          <a
+            href="#about"
+            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
+          >
+            <span className="mr-1 text-purple-500">-</span>
+            About {TOKEN_SYMBOL}
+          </a>
+
+          <a
+            href="#chart"
+            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
+          >
+            <span className="mr-1 text-purple-500">-</span>
+            Token Information
+          </a>
+
+          <a
+            href="#chart"
+            className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
+          >
+            <span className="mr-1 text-purple-500">-</span>
+            Frequently Asked Questions
+          </a>
+        </div>
+      </div>
+    );
+  };
+
+  const renderActionButtons = () => {
+    return (
+      <>
+        {wallet?.connected ? (
+          <>
+            {icoData ? (
+              <>
+                {userSolBalance < MIN_SOL_BALANCE ? (
+                  <button
+                    className={`w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-between transition-all duration-300 font-medium shadow-lg`}
                   >
-                    <BsFillInfoCircleFill className="mr-2" size={14} />
-                    <span>
-                      You don't have the minimum balance of {MIN_SOL_BALANCE}{" "}
-                      SOL
-                    </span>
-                  </div>
+                    Insufficient Balance, Min req {MIN_SOL_BALANCE} SOL
+                  </button>
+                ) : (
+                  <button
+                    onClick={executePurchase}
+                    disabled={!hasSufficientBalance}
+                    className={`w-full ${
+                      hasSufficientBalance
+                        ? "bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700"
+                        : isDarkMode
+                        ? "bg-gray-700 cursor-not-allowed"
+                        : "bg-gray-300 cursor-not-allowed"
+                    } text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg ${
+                      hasSufficientBalance ? "hover:shadow-purple-500/20" : ""
+                    }`}
+                  >
+                    {getButtonMessage()}
+                  </button>
                 )}
-
-                {/* price info */}
-                <div className="flex justify-between bg-gradient-to-r from-purple-500/5 to-emerald-500.5 rounded-xl p-4 mb-5">
-                  <div className="text-center">
-                    <p className={`text-xs ${secondaryTextColor} mb-1`}>
-                      Current Price
-                    </p>
-                    <p className={`text-lg font-bold ${textColor}`}>
-                      ${PER_TOKEN_USD_PRICE}
-                    </p>
-                  </div>
-                  <div className="h-auto w-px bg-gradient-to-b from-transparent via-gray-400/20 to-transparent"></div>
-                  <div className="text-center">
-                    <p className={`text-xs ${secondaryTextColor} mb-1`}>
-                      Next Stage
-                    </p>
-
-                    <p className={`text-lg font-bold ${textColor}`}>
-                      ${NEXT_PER_TOKEN_USD_PRICE}
-                    </p>
-                  </div>
-                </div>
-
-                {/* progress section */}
-                <div className="mb-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className={`text-xs ${secondaryTextColor}`}>
-                      Sale Progress
-                    </p>
-                    <p className="text-sm font-medium text-purple-500">
-                      {calculateProgressPercentage()}% Complete
-                    </p>
-                  </div>
-                  <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-purple-500 to-emerald-500 relative progress-animation"
-                      style={{ width: `${calculateProgressPercentage()}%` }}
-                    >
-                      <div className="absolute inset-0 shimmer"></div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between mt-2">
-                    <p className={`text-xs ${secondaryTextColor}`}>
-                      Total Raised:{" "}
-                      <span className="font-medium">
-                        $
-                        {parseFloat(icoData?.tokensSold?.toString() || 0) *
-                          parseFloat(PER_TOKEN_USD_PRICE) || 0 > 0
-                          ? (
-                              parseFloat(icoData?.tokensSold?.toString() || 0) *
-                              parseFloat(PER_TOKEN_USD_PRICE || 0)
-                            ).toFixed(2)
-                          : "0"}
-                      </span>
-                    </p>
-
-                    <p className={`text-xs ${secondaryTextColor}`}>
-                      Tokens Left:{" "}
-                      <span className="font-medium text-emerald-500">
-                        {icoData?.totalTokens - icoData?.tokensSold}{" "}
-                        {TOKEN_SYMBOL}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* token price display */}
-                <div className="bg-gradient-to-r from-purple-500/10 to-emerald-500/10 rounded-xl p-4 flex items-center justify-center space-x-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                    <img
-                      src="/logo.png"
-                      alt={TOKEN_SYMBOL}
-                      className="w-6 h-6"
-                    />
-                  </div>
-                  <span className={`text-lg font-medium ${textColor}`}>
-                    1 {TOKEN_SYMBOL} ={" "}
-                  </span>
-                  <div className="px-3 py-1.5 rounded-lg bg-purple-500/20">
-                    <span className="text-lg font-bold text-purple-500">
-                      {PER_TOKEN_SOL_PRICE} {CURRENCY}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Token selection */}
-                <div className="mb-5">
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => handleTokenSelect("SOL")}
-                      className={getTokenButtonStyle("SOL")}
-                    >
-                      <img
-                        src="/solana.svg"
-                        alt="Solana"
-                        className="w-4 h-4 mr-2"
-                      />
-                      {CURRENCY}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Balance display */}
-                <div
-                  className={`flex items-center ${
-                    isDarkMode ? "bg-gray-700/50" : "bg-gray-100"
-                  } rounded-lg px-4 py-3 mb-5`}
-                >
-                  <div className="w-8 h-8 pl-2 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center mr-3">
-                    {getTokenIcon(selectedToken)}
-                  </div>
-                  <div>
-                    <p className={`text-xs ${secondaryTextColor}`}>
-                      Available Balance
-                    </p>
-                    <p className={`font-medium ${textColor}`}>
-                      {userSolBalance}{" "}
-                      <span className="text-sm">{selectedToken}</span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* amount inputs */}
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <label
-                      className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
-                    >
-                      Quantity
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className={`w-full ${inputBg} ${textColor} rounded-lg border p-4 focus:ring-2 focus:ring-purple-500 transitiona-all duration-200`}
-                      />
-
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-grayt-600 px-3 py-1 rounded-lg">
-                        <span className={`text-sm ${textColor} mr-2`}>
-                          {TOKEN_SYMBOL}
-                        </span>
-                        <div className="w-6 h-6 pl-2 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
-                          <img
-                            src="/logo.png"
-                            alt={TOKEN_SYMBOL}
-                            className="mr-3 w-4 h-4"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
-                  >
-                    You Pay
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={(parseInt(amount) * PER_TOKEN_SOL_PRICE).toFixed(
-                        3
-                      )}
-                      readOnly
-                      className={`w-full ${inputBg} ${textColor} rounded-lg border p-4`}
-                    />
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-gray-600 px-3 py-1 rounded-lg">
-                      <span className={`text-sm ${textColor} mr-2`}>SOL</span>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
-                        <img src="/solana.svg" alt="SOL" className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* action buttons */}
-              {wallet?.connected ? (
-                <>
-                  {icoData ? (
-                    <>
-                      {userSolBalance < MIN_SOL_BALANCE ? (
-                        <button
-                          className={`w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-between transition-all duration-300 font-medium shadow-lg`}
-                        >
-                          Insufficient Balance, Min req {MIN_SOL_BALANCE} SOL
-                        </button>
-                      ) : (
-                        <button
-                          onClick={executePurchase}
-                          disabled={!hasSufficientBalance}
-                          className={`w-full ${
-                            hasSufficientBalance
-                              ? "bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700"
-                              : isDarkMode
-                              ? "bg-gray-700 cursor-not-allowed"
-                              : "bg-gray-300 cursor-not-allowed"
-                          } text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg ${
-                            hasSufficientBalance
-                              ? "hover:shadow-purple-500/20"
-                              : ""
-                          }`}
-                        >
-                          {getButtonMessage()}
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <button
-                      className={`w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg`}
-                    >
-                      ICO needs to be initialized
-                    </button>
-                  )}
-                </>
-              ) : (
-                <WalletMultiButton childStyle="w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg gap-2" />
-              )}
-
-              {/* refer a friend button */}
+              </>
+            ) : (
               <button
-                onClick={() => setIsModalOpen(!isModalOpen)}
-                className="w-full py-4 px-6 rounded-lg bg-gray-800 hover:bg-gray-700 text-white my-4 font-medium transition-all duration-300 flex items-center justify-center space-x-2"
+                className={`w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg`}
               >
-                <RxTokens />
-                <span>ICO Details</span>
+                ICO needs to be initialized
               </button>
+            )}
+          </>
+        ) : (
+          <WalletMultiButton childStyle="w-full bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg gap-2" />
+        )}
 
-              {/* Help section */}
-              <div
-                className={`p-4 rounded-lg ${
-                  isDarkMode ? "bg-gray-800/50" : "bg-gray-100"
-                }`}
-              >
-                <div className="flex items-center mb-3">
-                  <AiOutlineQuestionCircle
-                    className="mr-2 text-purple-500"
-                    size={18}
+        <style jsx>
+          {`
+            :global(.wallet-adapter-dropdown) {
+              width: 100% !important;
+            }
+
+            :global(.wallet-adapter-button) {
+              width: 100% !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            }
+          `}
+        </style>
+      </>
+    );
+  };
+
+  const renderBalanceSection = () => {
+    return (
+      <div
+        className={`flex items-center ${
+          isDarkMode ? "bg-gray-700/50" : "bg-gray-100"
+        } rounded-lg px-4 py-3 mb-5`}
+      >
+        <div className="w-8 h-8 pl-2 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center mr-3">
+          {getTokenIcon(selectedToken)}
+        </div>
+        <div>
+          <p className={`text-xs ${secondaryTextColor}`}>Available Balance</p>
+          <p className={`font-medium ${textColor}`}>
+            {userSolBalance} <span className="text-sm">{selectedToken}</span>
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderReferFriendButton = () => {
+    return (
+      <button
+        onClick={() => setIsModalOpen(!isModalOpen)}
+        className="w-full py-4 px-6 rounded-lg bg-gray-800 hover:bg-gray-700 text-white my-4 font-medium transition-all duration-300 flex items-center justify-center space-x-2"
+      >
+        <RxTokens />
+        <span>ICO Details</span>
+      </button>
+    );
+  };
+
+  const renderTokenPriceDisplay = () => {
+    return (
+      <div className="bg-gradient-to-r from-purple-500/10 to-emerald-500/10 rounded-xl p-4 flex items-center justify-center space-x-3 mb-6">
+        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+          <img src="/logo.png" alt={TOKEN_SYMBOL} className="w-6 h-6" />
+        </div>
+        <span className={`text-lg font-medium ${textColor}`}>
+          1 {TOKEN_SYMBOL} ={" "}
+        </span>
+        <div className="px-3 py-1.5 rounded-lg bg-purple-500/20">
+          <span className="text-lg font-bold text-purple-500">
+            {PER_TOKEN_SOL_PRICE} {CURRENCY}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  const renderTokenSelection = () => {
+    return (
+      <div className="mb-5">
+        <div className="flex space-x-3">
+          <button
+            onClick={() => handleTokenSelect("SOL")}
+            className={getTokenButtonStyle("SOL")}
+          >
+            <img src="/solana.svg" alt="Solana" className="w-4 h-4 mr-2" />
+            {CURRENCY}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderCardHeading = () => {
+    return (
+      <div className="bg-gradient-to-r from-purple-600 to-emerald-600 py-4 px-6">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-white font-bold text-lg">
+            Buy {TOKEN_SYMBOL} Tokens
+          </h3>
+          <span className="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">
+            Stage 1
+          </span>
+        </div>
+        <p>Limited time offer - Secure your tokens now</p>
+      </div>
+    );
+  };
+
+  const renderInsufficientBalanceAlert = () => {
+    return (
+      <>
+        {userSolBalance < MIN_SOL_BALANCE && (
+          <div
+            className={`text-center text-xs ${secondaryTextColor} mb-4 bg-purple-500/5 py-2 px-4 rounded-lg flex items-center justify-center`}
+          >
+            <BsFillInfoCircleFill className="mr-2" size={14} />
+            <span>
+              You don't have the minimum balance of {MIN_SOL_BALANCE} SOL
+            </span>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderTokenInputs = () => {
+    return (
+      <>
+        <div className="space-y-4 mb-6">
+          <div>
+            <label
+              className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
+            >
+              Quantity
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className={`w-full ${inputBg} ${textColor} rounded-lg border p-4 focus:ring-2 focus:ring-purple-500 transitiona-all duration-200`}
+              />
+
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-grayt-600 px-3 py-1 rounded-lg">
+                <span className={`text-sm ${textColor} mr-2`}>
+                  {TOKEN_SYMBOL}
+                </span>
+                <div className="w-6 h-6 pl-2 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
+                  <img
+                    src="/logo.png"
+                    alt={TOKEN_SYMBOL}
+                    className="mr-3 w-4 h-4"
                   />
-                  <h4 className={`font-medium ${textColor}`}>Need Help?</h4>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href="#chart"
-                    className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-                  >
-                    <span className="mr-1 text-purple-500">-</span>
-                    How to Buy Guide
-                  </a>
-                  <a
-                    href="#about"
-                    className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-                  >
-                    <span className="mr-1 text-purple-500">-</span>
-                    About {TOKEN_SYMBOL}
-                  </a>
-
-                  <a
-                    href="#chart"
-                    className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-                  >
-                    <span className="mr-1 text-purple-500">-</span>
-                    Token Information
-                  </a>
-
-                  <a
-                    href="#chart"
-                    className={`${secondaryTextColor} hover:text-purple-500 flex items-center text-xs transition-colors duration-200 py-1`}
-                  >
-                    <span className="mr-1 text-purple-500">-</span>
-                    Frequently Asked Questions
-                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* // scroll to top button */}
-        <div className="fixed bottom-6 right-6">
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-emerald-600 text-white shadow-lg shadow-purple-500/20 flex items-center justify-center transition-all duration-300 hover:scale-110"
-            aria-label="Scroll to top"
+        <div>
+          <label
+            className={`block ${secondaryTextColor} text-sm mb-2 font-medium`}
           >
-            <Five />
-          </button>
+            You Pay
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              value={(parseInt(amount) * PER_TOKEN_SOL_PRICE).toFixed(3)}
+              readOnly
+              className={`w-full ${inputBg} ${textColor} rounded-lg border p-4`}
+            />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-gray-800 dark:bg-gray-600 px-3 py-1 rounded-lg">
+              <span className={`text-sm ${textColor} mr-2`}>SOL</span>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-700 dark:bg-gray-500">
+                <img src="/solana.svg" alt="SOL" className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
         </div>
+      </>
+    );
+  };
+
+  const renderLoaderOverlay = () => {
+    return (
+      <>
+        {isLoading && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-2xl">
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-white">Loading...</p>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderScrollToTopButton = () => {
+    return (
+      <div className="fixed bottom-6 right-6">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-emerald-600 text-white shadow-lg shadow-purple-500/20 flex items-center justify-center transition-all duration-300 hover:scale-110"
+          aria-label="Scroll to top"
+        >
+          <Five />
+        </button>
+      </div>
+    );
+  };
+
+  const renderRightSideContent = () => {
+    return (
+      <div className="w-full lg:w-1/2 max-w-md mx-auto relative">
+        {/* loading overlay */}
+        {renderLoaderOverlay()}
+
+        {/* card glow effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-emerald-600 rounded-2xl blur-lg opacity-20"></div>
+
+        {/* card content */}
+        {renderCardHeading()}
+
+        <div className="p-6">
+          {renderInsufficientBalanceAlert()}
+
+          {/* price info */}
+          {renderPriceInfoSection()}
+
+          {/* progress section */}
+          {renderProgressSection()}
+
+          {/* token price display */}
+          {renderTokenPriceDisplay()}
+
+          {/* Token selection */}
+          {renderTokenSelection()}
+
+          {/* Balance display */}
+          {renderBalanceSection()}
+
+          {/* amount inputs */}
+          {renderTokenInputs()}
+        </div>
+
+        {/* action buttons */}
+        {renderActionButtons()}
+
+        {/* refer a friend button */}
+        {renderReferFriendButton()}
+
+        {/* Help section */}
+        {renderHelpSection()}
+      </div>
+    );
+  };
+
+  const renderLeftSideContent = () => {
+    return (
+      <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+        {/* status badge */}
+        <div className="inline-block py-2 px-5 rounded-full bg-purple-500/10 mb-6 border border-purple-500/20">
+          <p className="text-sm font-medium text-purple-500">
+            Presale Live Now - Limited Time Offer
+          </p>
+        </div>
+
+        <h1
+          className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${textColor}`}
+        >
+          SOLANA
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-emerald-500">
+            &nbsp; ICO
+          </span>
+        </h1>
+
+        <div className="relative mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-emerald-500">
+              Token Presale
+            </span>
+            <span className={textColor}> - Stage 1</span>
+          </h2>
+
+          <div className="absolute -bottom-3 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-emerald-500 rounded-full"></div>
+
+          <p
+            className={`${secondaryTextColor} text-base md:text-lg max-w-md mb-10 leading-relaxed`}
+          >
+            Join the future of blockchain innovation. Our revolutionary platform
+            combines cutting-edge technology with decentralized finance to
+            create a seamless eosystem for digital assets.
+          </p>
+
+          {/* features */}
+          {renderFeaturesSetion()}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div className={`relative w-full overflow-hidden ${bgColor}`}>
+        {/* bg elements */}
+        {renderBgElements()}
+
+        {/* main content */}
+        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+            {/* left side - text */}
+            {renderLeftSideContent()}
+
+            {/* right side - purchase card */}
+            {renderRightSideContent()}
+          </div>
+        </div>
+
+        {/* // scroll to top button */}
+        {renderScrollToTopButton()}
 
         <Admin
           isOpen={isModalOpen}
@@ -594,153 +830,6 @@ const HeroSection = ({
           buyTokens={buyTokens}
           calculateProgressPercentage={calculateProgressPercentage}
         />
-
-        {/* css for animations */}
-
-        <style jsx>
-          {`
-           :global(.wallet-adapter-dropdown) {
-            width: 100% !important;
-           }
-
-          :global(.wallet-adapter-button) {
-            width: 100% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-           }
-
-          .orbital-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(139, 92, 246, 0.1);
-            animation: rotate 60s linear infinite;
-          }
-
-          .ring1 {
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            right: -100px;
-          }
-
-          .ring2 {
-            width: 800;
-            height: 800px;
-            bottom: -200px;
-            left: -200px;
-            border-color: rgba(16, 185, 129, 0.1);
-            animation-duration: 90s;
-            animation-direction: reverse;
-          }
-
-          .ring-3 {
-            width: 400px;
-            height: 400px;
-            top: 50%;
-            left: 60%;
-            border: 1px solid rgba(139, 92, 246, 0.1);
-            animation-duration: 45s;
-          }
-
-          @keyframes rotate {
-            from {
-              transform: rotate(0deg);
-            }
-
-            to {
-              transform: rotate(360deg);
-            }
-          }
-
-          // floating elements
-          .floating-element {
-            position: absolute;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: float 10s ease-in-out infinite alternate;
-          }
-
-          .elem1 {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            right: 10%;
-            animation-delay: 0s;
-          }
-
-          .elem2 {
-            width: 200px;
-            height: 200px;
-            bottom: 20%;
-            left: 15%;
-            background-color: rgba(139, 92, 246, 0.1);
-            animation-delay: 2s;
-            animation-duration: 12s;
-          }
-
-          .elem3 {
-            width: 150px;
-            height: 150px;
-            top: 40%;
-            left: 25%;
-            background-color: rgba(139, 92, 246, 0.15);
-            animation-delay: 4s;
-            animation-duration: 8s;
-          }
-
-          @keyframes float {
-            0% {
-              transform: translateY(0px) rotate(0deg);
-              border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-
-            50% {
-              transform: translateY(-20px) rotate(10deg);
-              border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-            }
-
-            100% {
-              transform: translateY(0px) rotate(0deg);
-              border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-          }
-
-          // progress bar animation
-          .progress-animation {
-            animation: progress 2s ease-out;
-          }
-
-          @keyframes progress {
-            0% {
-              width: 0%;
-            }
-
-            100% {
-              width: ${calculateProgressPercentage()}%;
-            }
-          }
-
-          // shimmer effect
-          .shimmer {
-            animation: shimmer 2s infinite linear;
-            background: linear-gradient(
-            to-right, rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.3) 50%,
-            rgba(255, 255, 255, 0) 100%);
-            background-size: 200% 100%;
-          }
-
-          @keyframes shimmer {
-            0% {
-              background-position: -200% 0;
-            }
-              
-            100% {
-              background-position: 200% 0;
-            }
-        `}
-        </style>
       </div>
     </>
   );
